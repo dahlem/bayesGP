@@ -1,0 +1,20 @@
+## Copyright (C) 2008-2013 Dominik Dahlem <Dominik.Dahlem@gmail.com>
+##
+## This file is free software; as a special exception the author gives
+## unlimited permission to copy and/or distribute it, with or without
+## modifications, as long as this notice is preserved.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+## implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+## Author: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Maintainer: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Keywords: welford's mean
+## Created: 20.01.2008
+## Version: @VERSION@
+
+function x_bar_new = welford_mean(n, x_bar, x)
+  d = x - x_bar;
+  x_bar_new = x_bar + d / n;
+endfunction

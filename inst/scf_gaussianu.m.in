@@ -1,0 +1,33 @@
+## Copyright (C) 2008-2013 Dominik Dahlem <Dominik.Dahlem@gmail.com>
+##
+## This file is free software; as a special exception the author gives
+## unlimited permission to copy and/or distribute it, with or without
+## modifications, as long as this notice is preserved.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+## implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+## Author: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Maintainer: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Keywords: spatial correlation functions, gaussian, product
+## correlation rule
+## Created: 20.01.2008
+## Version: @VERSION@
+
+
+function r = scf_gaussianu(X, x, theta, p=2)
+  if (theta <= 0)
+    error("The parameter theta has to be positive");
+  endif
+
+  if (columns(x) != columns(X))
+    error("The vector x has to have the same dimension as matrix columns.");
+  endif
+
+  r = zeros(rows(X), 1);
+
+  for i = 1:rows(X)
+    r(i,:) = scf_gaussian(x, X(i,:), theta, p);
+  endfor
+endfunction

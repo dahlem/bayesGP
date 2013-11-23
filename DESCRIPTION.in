@@ -1,0 +1,11 @@
+Name: @PACKAGE@
+Version: @VERSION@
+Date: 2013-11-23
+Author: Dominik Dahlem
+Maintainer: Dominik Dahlem
+Title: Bayesian Gaussian Processes
+Description: Modelling spatial processes using Gaussian Process regression.
+Depends: octave (> 2.9.14)
+Autoload: yes
+License: as is
+Url: http://octave.sf.net

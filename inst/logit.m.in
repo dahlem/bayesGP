@@ -1,0 +1,20 @@
+## Copyright (C) 2008-2013 Dominik Dahlem <Dominik.Dahlem@gmail.com>
+##
+## This file is free software; as a special exception the author gives
+## unlimited permission to copy and/or distribute it, with or without
+## modifications, as long as this notice is preserved.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+## implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+## Author: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Maintainer: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Keywords: logit squashing function
+## Created: 20.01.2008
+## Version: @VERSION@
+
+## squashing function with a minimum value a and a maximum value b
+function f = logit(theta, a, b)
+  f = log(theta-a) - log(b-theta);
+endfunction

@@ -1,0 +1,46 @@
+## Copyright (C) 2008-2013 Dominik Dahlem <Dominik.Dahlem@gmail.com>
+##  
+## This file is free software; as a special exception the author gives
+## unlimited permission to copy and/or distribute it, with or without 
+## modifications, as long as this notice is preserved.
+## 
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+## implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+## Author: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Maintainer: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Keywords: R squared, predictive error sum of squares
+## Created: 04.10.2008
+## Version: @VERSION@
+## References: PHD Thesis JD Martin, Currin et.al. "A bayesian approach
+## to the design and analysis of computer experiments", and Mitchell
+## et.al. "Bayesian design and analysis of computer experiments: Two
+## examples."
+
+
+
+## prediction R^2 which quantifies the percent of the variability that
+## the model should explain at any unobserved location from PHD Thesis
+## JD Martin equation 5.6
+## X: the matrix with the design points used to fit the model
+## y: the vector of responses from the experiment
+## theta: the estimated theta parameters from MLE or BA MCMC
+## beta: the estimated beta parameters from MLE or BA MCMC
+function r_p = r_pred(X, y, C, sigmaSqu, theta, beta, nugget=0, FUN = @(x) 1, p=2)
+  R = scf_gaussianm(X, theta, nugget, p);
+  F = [];
+  for i = 1:rows(X)
+    F = [F; FUN(X(i,:))];
+  endfor
+  y_s = [];
+  
+  for i = 1:rows(X)
+    y_s = [y_s; gpX(X(i,:), X, R, C, sigmaSqu, theta, y, F, FUN, p)];
+  endfor
+
+  ttss = sst(y_s);
+  press = ssp(X, y_s, (R + C), beta, FUN);
+
+  r_p = 1 - press / ttss;
+endfunction

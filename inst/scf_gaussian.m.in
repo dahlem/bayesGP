@@ -1,0 +1,33 @@
+## Copyright (C) 2008-2013 Dominik Dahlem <Dominik.Dahlem@gmail.com>
+##
+## This file is free software; as a special exception the author gives
+## unlimited permission to copy and/or distribute it, with or without
+## modifications, as long as this notice is preserved.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+## implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+## Author: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Maintainer: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Keywords: spatial correlation functions, gaussian, product
+## correlation rule
+## Created: 20.01.2008
+## Version: @VERSION@
+
+
+## This function implements the gaussian spatial correlation between
+## two vectors and a correlation vector theta. The correlation vector
+## theta correlates each dimension of the two vectors.
+function r = scf_gaussian(x, y, theta, p=2)
+  if (theta <= 0)
+    error("The parameter theta has to be positive");
+  endif
+
+  if (columns(x) != columns(y))
+    error("The vectors x and y have to have the same dimension.");
+  endif
+
+  temp = sum(-((abs(y - x).^p) .* theta));
+  r = e^temp;
+endfunction

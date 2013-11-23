@@ -1,0 +1,42 @@
+## Copyright (C) 2008-2013 Dominik Dahlem <Dominik.Dahlem@gmail.com>
+##  
+## This file is free software; as a special exception the author gives
+## unlimited permission to copy and/or distribute it, with or without 
+## modifications, as long as this notice is preserved.
+## 
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+## implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+## Author: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Maintainer: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Keywords: R squared, predictive error sum of squares
+## Created: 04.10.2008
+## Version: @VERSION@
+## References: PHD Thesis JD Martin, Currin et.al. "A bayesian approach
+## to the design and analysis of computer experiments", and Mitchell
+## et.al. "Bayesian design and analysis of computer experiments: Two
+## examples."
+
+
+## Calculate the CV errors given the method described by Currin et.al.
+## and Mitchell et.al. which is also described in Phd thesis JD Martin
+## equations 3.6 and 3.7
+## X: the matrix with the design points used to fit the model
+## y: the vector of responses from the experiment
+## R: the correlation matrix of the input parameters
+## theta: the estimated theta parameters from MLE or BA MCMC
+## beta: the estimated beta parameters from MLE or BA MCMC
+function e = cv_error(X, y, R, beta, FUN = @(x) 1)
+  R_inf = cholinv(R);
+  F = [];
+  for i = 1:rows(X)
+    F = [F; FUN(X(i,:))];
+  endfor
+  g = R_inf * y;
+  w = R_inf * F;
+  r_vec = diag(R_inf);
+  
+  Q = diag(r_vec.^-1);
+  e = Q * (g - w * beta);
+endfunction

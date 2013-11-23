@@ -1,0 +1,36 @@
+## Copyright (C) 2008-2013 Dominik Dahlem <Dominik.Dahlem@gmail.com>
+##
+## This file is free software; as a special exception the author gives
+## unlimited permission to copy and/or distribute it, with or without
+## modifications, as long as this notice is preserved.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+## implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+## Author: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Maintainer: Dominik Dahlem <Dominik.Dahlem@gmail.com>
+## Keywords: spatial process regression
+## correlation rule
+## Created: 20.01.2008
+## Version: @VERSION@
+
+
+## from Ankeman
+function [l, beta] = gp(theta, C, X, y, F, sigmaSquared, nugget = 0, p=2)
+  S = sigmaSquared * scf_gaussianm(X, theta, nugget, p) + C;
+  U = chol(S);
+
+  ## invert it via Cholesky factorization
+  L = U';
+  Linv = inv(L);
+  Sinv = Linv'*Linv;
+
+  ## the optimal beta given theta and tau2
+  beta = inv(F'*Sinv*F)*(F'*(Sinv*y)); 
+  Z = L\(y-F*beta);
+
+  ## negative log likelihood
+  n = rows(y);
+  l = (log(det(L)) + 0.5*Z'*Z + 0.5*n*log(2*pi));
+endfunction
